@@ -1,18 +1,12 @@
 # Build stage
-FROM maven:3.8.8-openjdk:17 AS build
-WORKDIR /build
-COPY pom.xml .
-RUN mvn dependency:go-offline
-COPY src ./src
-RUN mvn clean package -DskipTests
-
 # Runtime stage
-FROM amazoncorretto:17
-# Define few things
+# And ship it using docker
+FROM openjdk:17
 
-WORKDIR /app
-COPY --from=buid /build/target/authorization-server-*.jar /app/
+ARG JAR_FILE=target/*.jar
 
-EXPOSE 8080
+COPY ${JAR_FILE} authorization-server.jar
 
-CMD java -jar authorization-server-1.0.0.jar
+ENTRYPOINT ["java", "-jar", "authorization-server.jar"]
+
+EXPOSE 8091
