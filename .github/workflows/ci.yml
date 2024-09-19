@@ -29,7 +29,7 @@ jobs:
         run: docker build -t damuleli/authorization-server .
 
       - name: Publish image to Docker Hub
-        run: docker push damuleli/authorization-server:1.0.0
+        run: docker push damuleli/authorization-server
 
   deploy:
     needs: build
