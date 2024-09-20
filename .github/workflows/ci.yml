@@ -37,10 +37,15 @@ jobs:
 
     steps:
       - name: Pull the image from Docker Hub
-        run: docker pull damuleli/authorization-server
+        run: docker pull damuleli/authorization-server:1.0.0
 
       - name: Delete old containers
         run: docker rm -f authorization-server-container || true  # Ignore error if the container does not exist
 
       - name: Run Docker as container
         run: docker run -d -p 8091:8091 --name authorization-server-container damuleli/authorization-server
+
+      - name: Verify Docker Installation
+        run: |
+          echo "Checking Docker version..."
+          docker --version
