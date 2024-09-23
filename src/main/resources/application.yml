@@ -7,8 +7,8 @@ spring:
 
 # DataSource Configuration
   datasource:
-    url: jdbc:postgresql://localhost:5432/auth_server
-    username: ldamuleli
+    url: jdbc:postgresql://13.247.97.16:5432/auth_server
+    username: postgres
     password: Lodav72#
 
 # JPA/Hibernate Configuration
