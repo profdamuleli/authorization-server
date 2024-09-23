@@ -33,11 +33,11 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: aws-ec2  # Ensure you have a self-hosted runner labeled 'aws-ec2'
+    runs-on: [aws-ec2]  # Ensure you have a self-hosted runner labeled 'aws-ec2'
 
     steps:
       - name: Pull the image from Docker Hub
-        run: docker pull damuleli/authorization-server:1.0.0
+        run: docker pull damuleli/authorization-server:latest
 
       - name: Delete old containers
         run: docker rm -f authorization-server-container || true  # Ignore error if the container does not exist
