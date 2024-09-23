@@ -1,51 +1,51 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: CICD
 
 on:
   push:
-    branches: [ deploy-to-ec2 ]
+    branches: [deploy-to-ec2]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout source
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
+      - name: Checkout source
+        uses: actions/checkout@v4
 
-    - name: Build with Maven
-      run: mvn clean install -DskipTests
+      - name: Set Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
 
-    - name: Login to docker hub
-      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build Project
+        run: mvn clean install -DskipTests
 
-    - name: Build docker image
-      run: docker build -t damuleli/authorization-server .
-    - name: Publish image to docker hub
-      run: docker push damuleli/authorization-server:1.0.0
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t damuleli/authorization-server .
+
+      - name: Publish image to Docker Hub
+        run: docker push damuleli/authorization-server
 
   deploy:
-      needs: build
-      runs-on: [aws-ec2]
-      steps:
-        - name: Pull the image from docker hub
-          run: docker pull damuleli/authorization-server:1.0.0
-        - name: Delete old containers
-          run: docker rm -f authorization-server
-        - name: Run docker as container
-          run: docker run -d -p8091:8091 --name authorization-server damuleli/authorization-server
+    needs: build
+    runs-on: [aws-ec2]  # Ensure you have a self-hosted runner labeled 'aws-ec2'
 
+    steps:
+      - name: Pull the image from Docker Hub
+        run: docker pull damuleli/authorization-server:latest
+
+      - name: Delete old containers
+        run: docker rm -f authorization-server-container || true  # Ignore error if the container does not exist
+
+      - name: Run Docker as container
+        run: docker run -d -p 8091:8091 --name authorization-server-container damuleli/authorization-server
+
+      - name: Verify Docker Installation
+        run: |
+          echo "Checking Docker version..."
+          docker --version
