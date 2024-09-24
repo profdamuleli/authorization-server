@@ -1,20 +1,17 @@
 package com.blastza.platform.authorization_server.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/demo-controller")
+@RequiredArgsConstructor
 public class TestController {
 
-    @GetMapping("/health")
+    @GetMapping()
     public String healthCheck() {
-        return "Service is up and running";
-    }
-
-    @GetMapping("/info")
-    public String info() {
-        return "This is a test endpoint";
+        return "Service is up and running and secured";
     }
 }
