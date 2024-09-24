@@ -14,4 +14,5 @@ public class TestController {
     public String healthCheck() {
         return "Service is up and running and secured";
     }
+
 }
