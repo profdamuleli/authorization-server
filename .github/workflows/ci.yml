@@ -34,7 +34,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: [aws-ec2]  # Ensure you have a self-hosted runner labeled 'aws-ec2'
+    runs-on: self-hosted  # Ensure you have a self-hosted runner labeled 'aws-ec2'
 
     steps:
       - name: Pull the image from Docker Hub
