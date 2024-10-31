@@ -18,12 +18,7 @@ pipeline {
             }
             steps {
                 // Build the application using Maven or Gradle
-                sh '''
-                      ls -la
-                     ./mvnw clean package -DskipTests
-                     java --version
-                     mvn --version
-                '''
+                sh './mvnw clean package -DskipTests' // for Maven
                 // sh './gradlew build' // for Gradle
             }
          }
