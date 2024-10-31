@@ -27,12 +27,6 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.register(request));
     }
 
-    @PostMapping("/register")
-    public String printHelLo(@Valid @RequestBody RegisterRequest request
-    ) {
-        return "Hello";
-    }
-
     @GetMapping("/verify")
     public ResponseEntity<?> verifyEmail(@RequestParam("token") String token) {
         return ResponseEntity.ok(service.updateUserVerificationStatus(token));

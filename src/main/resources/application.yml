@@ -7,9 +7,9 @@ spring:
 
 # DataSource Configuration
   datasource:
-    url: jdbc:postgresql://auth-server.cpsiaygcukgh.af-south-1.rds.amazonaws.com:5432/postgres
+    #url: jdbc:postgresql://auth-server.cpsiaygcukgh.af-south-1.rds.amazonaws.com:5432/postgres
 
-    #url: jdbc:postgresql://localhost:5432/authserverdb
+    url: jdbc:postgresql://localhost:5432/auth_server
 
     username: postgres
     password: Lodav72#
