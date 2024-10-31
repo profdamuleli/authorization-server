@@ -12,7 +12,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'maven:3.8.6-openjdk-17'
+                    image 'eclipse-temurin:8-jdk'
                     reuseNode true
                 }
             }
